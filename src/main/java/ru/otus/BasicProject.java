@@ -11,7 +11,7 @@ public class BasicProject {
         String input = reader.readLine();
         double number = Double.parseDouble(input);
 
-        String result = NumberToWords.digits2Text(Double.valueOf(input));
+        String result = NumberToWordsImpl.digits2Text(Double.valueOf(input));
 
         System.out.println("Число прописью: " + result);
     }

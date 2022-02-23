@@ -1,7 +1,5 @@
 package ru.otus;
 
-import java.io.*;
-
 public class BasicProject {
 
     private final IOService ioService;
@@ -11,10 +9,8 @@ public class BasicProject {
     }
 
     public void runConverter() {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ioService.outputString("Введите число в формате xxx.yy или exit");
         while(true) {
-//            System.out.println("Введите число в формате xxx.yy или exit");
             try {
                 String input = ioService.inputString();
                 if (input.equals("exit")) {

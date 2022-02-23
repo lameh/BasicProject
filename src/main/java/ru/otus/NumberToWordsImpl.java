@@ -1,7 +1,6 @@
 package ru.otus;
 
 import java.util.ArrayDeque;
-import java.util.Iterator;
 
 public class NumberToWordsImpl implements NumberToWords {
 
@@ -15,10 +14,6 @@ public class NumberToWordsImpl implements NumberToWords {
     }
 
     public static String digits2Text(String number) {
-//        if (number == null || number < 0.0) {
-//            return null;
-//        }
-//        String stringFirstStage = number.toString();
 
         String[] arraySecondStage = convertStringToArray(number);
 
@@ -73,7 +68,6 @@ public class NumberToWordsImpl implements NumberToWords {
                     helper.d = stringSegment.charAt(i);
             }
         }
-//        Iterator<Helper> i = helperStack.iterator();
     }
 
     static String constructingResultString(String[] arraySecondStage) {
@@ -82,11 +76,6 @@ public class NumberToWordsImpl implements NumberToWords {
         StringBuilder result = new StringBuilder();
         while (!helperStack.isEmpty()) {
             Helper hlp = helperStack.pop();
-
-            System.out.println(hlp.h);
-            System.out.println(hlp.d);
-            System.out.println(hlp.u);
-            System.out.println(hlp.range);
 
             if (hlp.h > 0) {
                 result.append(getHundreds(hlp.h));

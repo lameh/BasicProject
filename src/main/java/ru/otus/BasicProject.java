@@ -4,15 +4,41 @@ import java.io.*;
 
 public class BasicProject {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final IOService ioService;
 
-        System.out.println("Введите число в формате xxx.yy");
-        String input = reader.readLine();
-        double number = Double.parseDouble(input);
+    public BasicProject(IOService ioService) {
+        this.ioService = ioService;
+    }
 
-        String result = NumberToWordsImpl.digits2Text(Double.valueOf(input));
+    public void runConverter() {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ioService.outputString("Введите число в формате xxx.yy или exit");
+        while(true) {
+//            System.out.println("Введите число в формате xxx.yy или exit");
+            try {
+                String input = ioService.inputString();
+                if (input.equals("exit")) {
+                    break;
+                } else {
+                    double number = Double.parseDouble(input);
+                    if (number <= 0) {
+                        ioService.outputString("Число не может быть отрицательным!");
+                        continue;
+                    }
+                    if (!input.contains(".")) {
+                        input = input.concat(".00");
+                    }
+                    if (input.contains(",")) {
+                        input = input.replace(",", ".");
+                    }
 
-        System.out.println("Число прописью: " + result);
+                    String result = NumberToWordsImpl.digits2Text(input);
+
+                    ioService.outputString("Число прописью: " + result);
+                }
+            } catch (Exception e) {
+                ioService.outputString("Введите корректное значение!");
+            }
+        }
     }
 }

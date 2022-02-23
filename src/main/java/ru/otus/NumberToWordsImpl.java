@@ -14,20 +14,18 @@ public class NumberToWordsImpl implements NumberToWords {
         Ranges range;
     }
 
-    public static String digits2Text(Double number) {
-        if (number == null || number < 0.0) {
-            return null;
-        }
-        String stringFirstStage = number.toString();
+    public static String digits2Text(String number) {
+//        if (number == null || number < 0.0) {
+//            return null;
+//        }
+//        String stringFirstStage = number.toString();
 
-        String[] arraySecondStage = convertStringToArray(stringFirstStage);
-
-        buildingHelperEntity(arraySecondStage);
+        String[] arraySecondStage = convertStringToArray(number);
 
         return constructingResultString(arraySecondStage);
     }
 
-    private static String[] convertStringToArray(String string) {
+    static String[] convertStringToArray(String string) {
         int capacity = string.length() - string.lastIndexOf('.');
         if (capacity > 3) {
             return null;
@@ -35,9 +33,7 @@ public class NumberToWordsImpl implements NumberToWords {
         if (capacity == 2) {
             string += "0";
         }
-        String[] arraySecondStage = string.split("\\.");
-
-        return arraySecondStage;
+        return string.split("\\.");
     }
 
     private static void buildingHelperEntity(String[] arraySecondStage) {
@@ -80,7 +76,9 @@ public class NumberToWordsImpl implements NumberToWords {
 //        Iterator<Helper> i = helperStack.iterator();
     }
 
-    private static String constructingResultString(String[] arraySecondStage) {
+    static String constructingResultString(String[] arraySecondStage) {
+        buildingHelperEntity(arraySecondStage);
+
         StringBuilder result = new StringBuilder();
         while (!helperStack.isEmpty()) {
             Helper hlp = helperStack.pop();
@@ -142,30 +140,15 @@ public class NumberToWordsImpl implements NumberToWords {
                     }
                     break;
                 default:
-                    if (hlp.d == '1' || hlp.u == '0' || hlp.u > '4') {
-                        result.append("рублей");
-                    } else if (hlp.u > '1') {
-                        result.append("рубля");
-                    } else {
-                        result.append("рубль");
-                    }
+                    getRubles(hlp, result);
             }
             result.append(' ');
         }
 
         result.append(arraySecondStage[1] + ' ');
-        switch (arraySecondStage[1].charAt(1)) {
-            case '1':
-                result.append(arraySecondStage[1].charAt(0) != '1' ? "копейка" : "копеек");
-                break;
-            case '2':
-            case '3':
-            case '4':
-                result.append(arraySecondStage[1].charAt(0) != '1' ? "копейки" : "копеек");
-                break;
-            default:
-                result.append("копеек");
-        }
+
+        getPennies(arraySecondStage, result);
+
         char first = Character.toUpperCase(result.charAt(0));
         result.setCharAt(0, first);
         return result.toString();
@@ -280,4 +263,53 @@ public class NumberToWordsImpl implements NumberToWords {
         return s + "надцать";
     }
 
+    private static void getRubles(Helper hlp, StringBuilder result) {
+        if (hlp.d == '1' || hlp.u == '0' || hlp.u > '4') {
+            result.append("рублей");
+        } else if (hlp.u > '1') {
+            result.append("рубля");
+        } else {
+            result.append("рубль");
+        }
+    }
+
+    /*   private static void getDollars(Helper hlp, StringBuilder result) {
+        if (hlp.d == '1' || hlp.u == '0' || hlp.u > '4') {
+            result.append("долларов");
+        } else if (hlp.u > '1') {
+            result.append("доллара");
+        } else {
+            result.append("доллар");
+        }
+    } */
+
+    private static void getPennies(String[] arraySecondStage, StringBuilder result) {
+        switch (arraySecondStage[1].charAt(1)) {
+            case '1':
+                result.append(arraySecondStage[1].charAt(0) != '1' ? "копейка" : "копеек");
+                break;
+            case '2':
+            case '3':
+            case '4':
+                result.append(arraySecondStage[1].charAt(0) != '1' ? "копейки" : "копеек");
+                break;
+            default:
+                result.append("копеек");
+        }
+    }
+
+    /* private static void getCents(String[] arraySecondStage, StringBuilder result) {
+        switch (arraySecondStage[1].charAt(1)) {
+            case '1':
+                result.append(arraySecondStage[1].charAt(0) != '1' ? "цент" : "центов");
+                break;
+            case '2':
+            case '3':
+            case '4':
+                result.append(arraySecondStage[1].charAt(0) != '1' ? "цента" : "центов");
+                break;
+            default:
+                result.append("центов");
+        }
+    }*/
 }

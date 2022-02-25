@@ -32,18 +32,3 @@ public class NumberToWordsImplTest {
         }
     }
 }
-/*
-    public void testNonNumberRunConverter() {
-        String scenario = "Тест на нечисловое значение";
-        try {
-            var arrayStr = NumberToWordsImpl.convertStringToArray("9999999999.99");
-            var testResult = NumberToWordsImpl.constructingResultString(arrayStr);
-
-            String result = new String("Девяносто девять миллиардов девятьсот девяносто девять миллионов девятьсот девяносто девять тысяч девятьсот девяносто девять рублей 99 копеек");
-            Assertions.assertEquals(testResult, result);
-            System.out.printf("\"%s\" passed %n", scenario);
-        } catch (Throwable e) {
-            System.err.printf("\"%s\" fails with message \"%s\" %n", scenario, e.getMessage());
-        }
-}
-*/

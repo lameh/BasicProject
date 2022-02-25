@@ -77,15 +77,18 @@ public class NumberToWordsImpl implements NumberToWords {
         while (!helperStack.isEmpty()) {
             Helper hlp = helperStack.pop();
 
-            if (hlp.h > 0) {
+            if (hlp.h > '0') {
                 result.append(getHundreds(hlp.h));
                 result.append(' ');
             }
+            /*if (hlp.h == 0) {
+                continue;
+            }*/
             if (hlp.d > '0') {
                 if (hlp.d > '1' || (hlp.d == '1' && hlp.u == '0')) {
                     result.append(getDecades(hlp.d));
                 } else if (hlp.d > '0') {
-                    result.append(getTeens(hlp.d));
+                    result.append(getTeens(hlp.u));
                 }
                 result.append(' ');
             }
@@ -105,8 +108,11 @@ public class NumberToWordsImpl implements NumberToWords {
                     } else {
                         result.append("миллиард");
                     }
+                    result.append(' ');
                     break;
                 case MILLIONS:
+                    if (hlp.h == '0' && hlp.u == '0' && hlp.d == '0')
+                        break;
                     if (hlp.d == '1' || hlp.u == '0') {
                         result.append("миллионов");
                     } else if (hlp.u > '4') {
@@ -116,8 +122,11 @@ public class NumberToWordsImpl implements NumberToWords {
                     } else {
                         result.append("миллион");
                     }
+                    result.append(' ');
                     break;
                 case THOUSANDS:
+                    if (hlp.h == '0' && hlp.u == '0' && hlp.d == '0')
+                        break;
                     if (hlp.d == '1' || hlp.u == '0') {
                         result.append("тысяч");
                     } else if (hlp.u > '4') {
@@ -127,11 +136,12 @@ public class NumberToWordsImpl implements NumberToWords {
                     } else {
                         result.append("тысяча");
                     }
+                    result.append(' ');
                     break;
                 default:
                     getRubles(hlp, result);
+                    result.append(' ');
             }
-            result.append(' ');
         }
 
         result.append(arraySecondStage[1] + ' ');
@@ -164,7 +174,7 @@ public class NumberToWordsImpl implements NumberToWords {
             case '9':
                 return "девятьсот";
             default:
-                return null;
+                return "";
         }
     }
 
